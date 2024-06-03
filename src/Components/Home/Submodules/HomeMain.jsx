@@ -95,9 +95,9 @@ const HomeMain = () => {
         setBackdrop(false)
 
         setImageData({
-          "original_image_area": 1000*res.data.original_image_area,
-          "total_segmented_region_area": 1000*res.data.total_segmented_region_area,
-          "mask_area": 1000*res.data.mask_area,
+          "original_image_area": 1000 * res.data.original_image_area,
+          "total_segmented_region_area": 1000 * res.data.total_segmented_region_area,
+          "mask_area": 1000 * res.data.mask_area,
         })
 
         // Cleanup the Blob URL when the component unmounts
@@ -110,93 +110,95 @@ const HomeMain = () => {
 
   return (
     <div style={{ textAlign: 'center' }}>
-      <AppBar sx={{ width: "100%", display: "flex", justifyContent: "center", alignItems: "center" }} position="static">
+      <AppBar sx={{ width: "100%", display: "flex", justifyContent: "center", alignItems: "center", height: "10vh", overflow: "hidden" }} position="static">
         <Toolbar>
           <Typography variant="h5">
             Leather Defect Detection
           </Typography>
         </Toolbar>
       </AppBar>
-      <Grid container>
-        <Grid item xs={5} sx={{ height: "90vh" }}>
-          <div style={{ marginTop: '20px', marginBottom: "20px", display: 'flex', justifyContent: 'space-between', alignItems: "center", height: "160px", flexDirection: "column" }}>
-            <Typography variant="h6">UPLOAD RAW MATERIAL IMAGE</Typography>
-            <div>
-              <input
-                accept="image/*"
-                style={{ display: 'none' }}
-                id="upload-file"
-                type="file"
-                onChange={handleUploadClick}
-              />
-              <label htmlFor="upload-file">
-                <IconButton color="primary" component="span" style={{ transform: 'scale(3)', marginRight: "60px" }}>
-                  <UploadFile fontSize="large" />
-                </IconButton>
-              </label>
-              <IconButton color="primary" onClick={handleOpenDialog} style={{ transform: 'scale(3)', marginLeft: "60px" }}>
-                <PhotoCamera fontSize="large" />
-              </IconButton>
-            </div>
-          </div>
-          <Dialog open={open} onClose={handleCloseDialog} maxWidth="lg" >
-            <DialogTitle>Capture Image</DialogTitle>
-            <DialogContent>
-              <Webcam
-                audio={false}
-                ref={webcamRef}
-                screenshotFormat="image/jpeg"
-                width="100%"
-                height="100%"
-              />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={() => capture(webcamRef)} color="primary">
-                Capture
-              </Button>
-              <Button onClick={handleCloseDialog} color="primary">
-                Cancel
-              </Button>
-            </DialogActions>
-          </Dialog>
-          {image && (
-            <div style={{ marginTop: '20px', height: "50vh" }}>
-              <img src={image} alt="Raw material" style={{ width: '275px', height: '275px', objectFit: 'contain' }} />
+      <div style={{height: "90vh", overflowX: "hidden", overflowY: "scroll"}}>
+        <Grid container>
+          <Grid item xs={5} sx={{ height: "90vh" }}>
+            <div style={{ marginTop: '20px', marginBottom: "20px", display: 'flex', justifyContent: 'space-between', alignItems: "center", height: "160px", flexDirection: "column" }}>
+              <Typography variant="h6">UPLOAD RAW MATERIAL IMAGE</Typography>
               <div>
-                <Button variant="contained" color="primary" style={{ marginTop: '10px', marginRight: '10px' }} onClick={handleSubmit}>
-                  Upload
-                </Button>
-                <Button variant="outlined" color="secondary" style={{ marginTop: '10px' }} onClick={unselectImage}>
-                  Unselect
-                </Button>
+                <input
+                  accept="image/*"
+                  style={{ display: 'none' }}
+                  id="upload-file"
+                  type="file"
+                  onChange={handleUploadClick}
+                />
+                <label htmlFor="upload-file">
+                  <IconButton color="primary" component="span" style={{ transform: 'scale(3)', marginRight: "60px" }}>
+                    <UploadFile fontSize="large" />
+                  </IconButton>
+                </label>
+                <IconButton color="primary" onClick={handleOpenDialog} style={{ transform: 'scale(3)', marginLeft: "60px" }}>
+                  <PhotoCamera fontSize="large" />
+                </IconButton>
               </div>
             </div>
-          )}
-        </Grid>
-        <Divider orientation="vertical" variant="middle" flexItem />
-        <Grid item xs={6.9} sx={{ height: "90vh" }}>
-          {imageSrc && (
-            <div style={{ height: "100%", display: "flex", alignItems: "center", flexDirection: "column", }}>
-              {anomaly && (
-                <Typography sx={{ marginTop: "20px", marginBottom: "10px" }} color={"red"} variant="h5">Anomaly Detected</Typography>
-              )}
-              {!anomaly && (
-                <Typography sx={{ marginTop: "20px", marginBottom: "10px" }} color={"green"} variant="h5">No Anomaly Deteceted</Typography>
-              )}
-              {/* <Typography sx={{fontWeight: "bold"}} variant="subtitle1">Original Image Area: {imageData.original_image_area}  sq m</Typography>
+            <Dialog open={open} onClose={handleCloseDialog} maxWidth="lg" >
+              <DialogTitle>Capture Image</DialogTitle>
+              <DialogContent>
+                <Webcam
+                  audio={false}
+                  ref={webcamRef}
+                  screenshotFormat="image/jpeg"
+                  width="100%"
+                  height="100%"
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => capture(webcamRef)} color="primary">
+                  Capture
+                </Button>
+                <Button onClick={handleCloseDialog} color="primary">
+                  Cancel
+                </Button>
+              </DialogActions>
+            </Dialog>
+            {image && (
+              <div style={{ marginTop: '20px', height: "50vh" }}>
+                <img src={image} alt="Raw material" style={{ width: '275px', height: '275px', objectFit: 'contain' }} />
+                <div>
+                  <Button variant="contained" color="primary" style={{ marginTop: '10px', marginRight: '10px' }} onClick={handleSubmit}>
+                    Upload
+                  </Button>
+                  <Button variant="outlined" color="secondary" style={{ marginTop: '10px' }} onClick={unselectImage}>
+                    Unselect
+                  </Button>
+                </div>
+              </div>
+            )}
+          </Grid>
+          <Divider orientation="vertical" variant="middle" flexItem />
+          <Grid item xs={6.9} sx={{ height: "90vh" }}>
+            {imageSrc && (
+              <div style={{ height: "100%", display: "flex", alignItems: "center", flexDirection: "column", }}>
+                {anomaly && (
+                  <Typography sx={{ marginTop: "20px", marginBottom: "10px" }} color={"red"} variant="h5">Anomaly Detected</Typography>
+                )}
+                {!anomaly && (
+                  <Typography sx={{ marginTop: "20px", marginBottom: "10px" }} color={"green"} variant="h5">No Anomaly Deteceted</Typography>
+                )}
+                {/* <Typography sx={{fontWeight: "bold"}} variant="subtitle1">Original Image Area: {imageData.original_image_area}  sq m</Typography>
               <Typography sx={{fontWeight: "bold"}} variant="subtitle1">Total Segmented Region Area: {imageData.total_segmented_region_area} sq m</Typography>
               <Typography sx={{fontWeight: "bold"}} variant="subtitle1">Mask Area: {imageData.mask_area} sq m</Typography> */}
-              <img src={imageSrc} alt="Raw material" style={{ width: '700px', height: '700px', objectFit: 'contain' }} />
-            </div>
-          )}
+                <img src={imageSrc} alt="Raw material" style={{ width: '700px', height: '700px', objectFit: 'contain' }} />
+              </div>
+            )}
+          </Grid>
         </Grid>
-      </Grid>
-      <Backdrop
-        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={backdrop}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
+        <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={backdrop}
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      </div>
     </div>
   );
 };
