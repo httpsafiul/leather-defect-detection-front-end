@@ -13,6 +13,9 @@ const HomeMain = () => {
   const [imageSrc, setImageSrc] = useState('');
   const [anomaly, setAnomaly] = useState(false);
   const [backdrop, setBackdrop] = useState(false);
+  const [imageData, setImageData] = useState({
+
+  });
 
   const handleUploadClick = (event) => {
     const file = event.target.files[0];
@@ -91,6 +94,12 @@ const HomeMain = () => {
         }
         setBackdrop(false)
 
+        setImageData({
+          "original_image_area": 1000*res.data.original_image_area,
+          "total_segmented_region_area": 1000*res.data.total_segmented_region_area,
+          "mask_area": 1000*res.data.mask_area,
+        })
+
         // Cleanup the Blob URL when the component unmounts
         return () => URL.revokeObjectURL(blobUrl);
       })
@@ -110,7 +119,7 @@ const HomeMain = () => {
       </AppBar>
       <Grid container>
         <Grid item xs={5} sx={{ height: "90vh" }}>
-          <div style={{ marginTop: '20px', marginBottom: "10px", display: 'flex', justifyContent: 'space-between', alignItems: "center", height: "20vh", flexDirection: "column" }}>
+          <div style={{ marginTop: '20px', marginBottom: "20px", display: 'flex', justifyContent: 'space-between', alignItems: "center", height: "160px", flexDirection: "column" }}>
             <Typography variant="h6">UPLOAD RAW MATERIAL IMAGE</Typography>
             <div>
               <input
@@ -151,8 +160,8 @@ const HomeMain = () => {
             </DialogActions>
           </Dialog>
           {image && (
-            <div style={{ marginTop: '20px', height: "65vh" }}>
-              <img src={image} alt="Raw material" style={{ width: '300px', height: '300px', objectFit: 'contain' }} />
+            <div style={{ marginTop: '20px', height: "50vh" }}>
+              <img src={image} alt="Raw material" style={{ width: '275px', height: '275px', objectFit: 'contain' }} />
               <div>
                 <Button variant="contained" color="primary" style={{ marginTop: '10px', marginRight: '10px' }} onClick={handleSubmit}>
                   Upload
@@ -165,16 +174,19 @@ const HomeMain = () => {
           )}
         </Grid>
         <Divider orientation="vertical" variant="middle" flexItem />
-        <Grid item xs={6.9}>
+        <Grid item xs={6.9} sx={{ height: "90vh" }}>
           {imageSrc && (
-            <div style={{ height: "80vh", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+            <div style={{ height: "100%", display: "flex", alignItems: "center", flexDirection: "column", }}>
               {anomaly && (
-                <Typography sx={{ marginTop: "70px" }} color={"red"} variant="h5">Anomaly Detected</Typography>
+                <Typography sx={{ marginTop: "20px", marginBottom: "10px" }} color={"red"} variant="h5">Anomaly Detected</Typography>
               )}
               {!anomaly && (
-                <Typography sx={{ marginTop: "70px" }} color={"green"} variant="h5">No Anomaly Deteceted</Typography>
+                <Typography sx={{ marginTop: "20px", marginBottom: "10px" }} color={"green"} variant="h5">No Anomaly Deteceted</Typography>
               )}
-              <img src={imageSrc} alt="Raw material" style={{ width: '650px', height: '650px', objectFit: 'contain' }} />
+              {/* <Typography sx={{fontWeight: "bold"}} variant="subtitle1">Original Image Area: {imageData.original_image_area}  sq m</Typography>
+              <Typography sx={{fontWeight: "bold"}} variant="subtitle1">Total Segmented Region Area: {imageData.total_segmented_region_area} sq m</Typography>
+              <Typography sx={{fontWeight: "bold"}} variant="subtitle1">Mask Area: {imageData.mask_area} sq m</Typography> */}
+              <img src={imageSrc} alt="Raw material" style={{ width: '700px', height: '700px', objectFit: 'contain' }} />
             </div>
           )}
         </Grid>
